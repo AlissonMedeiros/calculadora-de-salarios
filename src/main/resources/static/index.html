@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+    <body class="bg-light">
+
+    <div class="container">
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="https://www.globalempregos.com.br/wp-content/uploads/Padrao_Post_GlobalPost.jpg" alt="" width="72" height="72">
+            <h2>Formulário para calcula de salário</h2>
+        </div>
+
+        <h4 class="d-flex justify-content-between align-items-center">
+            <span class="text-muted">Calculo</span>
+        </h4>
+
+        <ul class="list-group mb-3">
+
+            <div class="row">
+                <form id="calcForm" class="card p-2">
+                    <div class="input-group">
+                        <input id ="rendaBrutaValor" type="number" class="form-control" placeholder="renda bruta">
+                        <div class="input-group-append">
+                            <button id="btCalcula" type="submit" class="btn btn-secondary">Calcular renda</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="text-success">
+                    <h6 class="my-0">Salário CLT</h6>
+                    <small>Valor do salário em CLT (renda real)</small>
+                </div>
+                <span class="text-success" id="cltValor" >R$ 200,00</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="text-success">
+                    <h6 class="my-0">Salário PJ</h6>
+                    <small>Valor do salário mensal em PJ (renda real)</small>
+                </div>
+                <span class="text-success" id="pjValor" >R$ 50,00</span>
+            </li>
+        </ul>
+
+    </div>
+    <script>
+
+    $(function() {
+        $("#calcForm").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                    url: "/calcula",
+                    type: 'post',
+                    data: $("#rendaBrutaValor").val() ? $("#rendaBrutaValor").val() : "0.0",
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        console.log(data);
+                        $("#pjValor").text("R$ " + data.pj);
+                        $("#cltValor").text("R$ " + data.clt);
+                    }
+            });
+        });
+
+    });
+
+    </script>
+
+    </body>
+
+</body>
+</html>
