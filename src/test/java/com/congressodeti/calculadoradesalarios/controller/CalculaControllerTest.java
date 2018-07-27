@@ -6,14 +6,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.restassured.RestAssured;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class StatusControllerTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class CalculaControllerTest {
 
     @Value("${local.server.port}")
     protected int serverPort;
@@ -24,13 +24,16 @@ public class StatusControllerTest {
     }
 
     @Test
-    public void quandoServidorEstaNoAREntaoRetornaOk() {
+    public void quandoRendaBrutal2000RetornaSalarioREal() {
         RestAssured.given()
+                .body("2000")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .when()
-                .get("/status")
+                .post("/calcula")
                 .then()
                 .statusCode(200)
-                .body("status", Matchers.equalTo("ok"));
-    }
+                .body("pj", Matchers.equalTo(1880.0F))
+                .body("clt", Matchers.equalTo(1833.3334F));
 
+    }
 }

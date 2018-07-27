@@ -12,12 +12,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.BrowserWebDriverContainer;
+import org.testcontainers.containers.BrowserWebDriverContainer.VncRecordingMode;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class TesteDeInterface {
 
     @Value("${local.server.port}")
@@ -26,7 +28,7 @@ public class TesteDeInterface {
     @Rule
     public BrowserWebDriverContainer chrome = new BrowserWebDriverContainer()
             .withDesiredCapabilities(DesiredCapabilities.chrome())
-            .withRecordingMode(BrowserWebDriverContainer.VncRecordingMode.SKIP, new File("target"));
+            .withRecordingMode(VncRecordingMode.SKIP, new File("target"));
 
     @Test
     public void validaCalculoDeSalario() throws InterruptedException {
@@ -39,8 +41,8 @@ public class TesteDeInterface {
         Thread.sleep(1000L);
         WebElement clt = driver.findElement(By.id("cltValor"));
         WebElement pj = driver.findElement(By.id("pjValor"));
-        Assertions.assertThat(clt.getText()).isEqualTo("R$ 200");
-        Assertions.assertThat(pj.getText()).isEqualTo("R$ 250");
+        Assertions.assertThat(clt.getText()).isEqualTo("R$ 1833.33332");
+        Assertions.assertThat(pj.getText()).isEqualTo("R$ 1880");
     }
 
 }
